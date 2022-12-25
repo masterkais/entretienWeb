@@ -6,9 +6,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Brand } from "app/shared/models/brand.model";
 import { Category } from "app/shared/models/category.model";
-import { BrandService } from "app/shared/services/brand.service";
 import { CategoryService } from "app/shared/services/category.service";
 import { NgToastService } from "ng-angular-popup";
 
@@ -23,21 +21,15 @@ export class AddCatgoryComponent implements OnInit {
   groups = new FormControl();
   category: Category;
   state;
-  listBrands:Brand[];
-  brand:Brand;
   constructor(
     private activatedRoot: ActivatedRoute,
     private formBuilder: FormBuilder,
     private categoryService: CategoryService,
     private toast: NgToastService,
     private router: Router,
-    private brandServices:BrandService
   ) {}
 
   ngOnInit(): void {
-    this.brandServices.getAllBrand().subscribe((datas)=>{
-      this.listBrands=datas;
-    })
     this.categoryFormGroup = this.formBuilder.group({
       name: [
         "",
@@ -49,17 +41,12 @@ export class AddCatgoryComponent implements OnInit {
       ],
     });
   }
- getBrand(brand:Brand){
-  this.brand=brand;
-  console.log("****"+brand.id);
- }
   onSaveCategory() {
     this.submitted = true;
     let data: Category = {
       id: null,
       name: this.categoryFormGroup.value.name,
       description: this.categoryFormGroup.value.description,
-      idBrand:this.brand.id
     };
     this.categoryService.saveCategory(data).subscribe(
       () => {

@@ -33,7 +33,7 @@
                                         <div *ngIf="productFormGroup.controls['description'].invalid && (productFormGroup.controls['description'].dirty || productFormGroup.controls['description'].touched)"
                                             class="alert alert-danger">
                                             <div *ngIf="productFormGroup.controls['description'].errors.required">
-                                                Prenom est obligatoir.
+                                                description est obligatoir.
                                             </div>
                                             <div *ngIf="productFormGroup.controls['description'].errors.minlength">
                                                 Le longeur minimale est 3.
@@ -44,11 +44,11 @@
                                 <div class="col-md-4">
                                     <mat-form-field class="example-full-width">
                                         <input matInput placeholder="Prix d'achat" formControlName="sellingPrice" [ngModel]="product.sellingPrice"
-                                             type="email">
+                                             type="number">
                                         <div *ngIf="productFormGroup.controls['sellingPrice'].invalid && (productFormGroup.controls['sellingPrice'].dirty || productFormGroup.controls['sellingPrice'].touched)"
                                             class="alert alert-danger">
                                             <div *ngIf="productFormGroup.controls['sellingPrice'].errors.required">
-                                                email est obligatoir.
+                                                prix d'achat est obligatoir.
                                             </div>
                         
                                         </div>
@@ -59,11 +59,11 @@
                                 <div class="col-md-6">
                                     <mat-form-field class="example-full-width">
                                         <input matInput placeholder="Prix de vente" formControlName="buyingPrice" [ngModel]="product.buyingPrice"
-                                             type="email">
+                                             type="number">
                                         <div *ngIf="productFormGroup.controls['buyingPrice'].invalid && (productFormGroup.controls['buyingPrice'].dirty || productFormGroup.controls['buyingPrice'].touched)"
                                             class="alert alert-danger">
                                             <div *ngIf="productFormGroup.controls['buyingPrice'].errors.required">
-                                                email est obligatoir.
+                                                Prix de vente.
                                             </div>
                         
                                         </div>
@@ -75,7 +75,7 @@
                                     <mat-radio-button class="example-radio-button" [value]="1" [checked]="true"
                                         (change)="radioChange($event)">
                                         Disponible</mat-radio-button>
-                                    <mat-radio-button class="example-radio-button" [value]="2"
+                                    <mat-radio-button class="example-radio-button" [value]="0"
                                         (change)="radioChange($event)">
                                         Non disponible</mat-radio-button>
                                 </mat-radio-group>
@@ -88,8 +88,8 @@
                                     <mat-radio-button class="example-radio-button" [value]="1"
                                         (change)="radioChangePromotion($event)" [checked]="true">
                                        Promotion</mat-radio-button>
-                                    <mat-radio-button class="example-radio-button" [value]="2"
-                                        (change)="radioChange($event)">
+                                    <mat-radio-button class="example-radio-button" [value]="0"
+                                        (change)="radioChangePromotion($event)">
                                         Non promotional</mat-radio-button>
                                 </mat-radio-group>
                                 </div>
@@ -111,16 +111,7 @@
                                         </mat-select>
                                       </mat-form-field>
                                 </div>
-                                <div class="col-md-6">
-                                    <mat-form-field style="margin-right:10px;margin-left:10px" appearance="standard">
-                                        <mat-label>Site Stock</mat-label>
-                                        <mat-select formControlName="siteStockId" >
-                                          <mat-option [(ngModel)]="selectedOption" *ngFor="let row of listSieStock" [value]="row" (click)="getSiteStockVal(row)" >
-                                            {{row.name}}
-                                          </mat-option>
-                                        </mat-select>
-                                      </mat-form-field>
-                                </div>
+                         
                             </div>
                              <button mat-raised-button type="submit"
                                 [disabled]="productFormGroup.pristine || productFormGroup.invalid"

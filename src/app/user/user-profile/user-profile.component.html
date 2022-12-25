@@ -51,7 +51,7 @@
                                 <div class="col-md-6">
                                     <mat-form-field class="example-full-width">
                                         <input matInput placeholder="Utilisateur nom" formControlName="userName"
-                                            type="text" [ngModel]="user.login">
+                                            type="text" [ngModel]="user.userName">
                                         <div *ngIf="userFormGroup.controls['userName'].invalid && (userFormGroup.controls['userName'].dirty || userFormGroup.controls['userName'].touched)"
                                             class="alert alert-danger">
                                             <div *ngIf="userFormGroup.controls['userName'].errors.required">

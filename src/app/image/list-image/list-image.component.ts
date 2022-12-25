@@ -3,13 +3,9 @@ import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
-import { Category } from "app/shared/models/category.model";
 import { Image } from "app/shared/models/image.model";
-import { SiteStock } from "app/shared/models/siteStock.model";
-import { CategoryService } from "app/shared/services/category.service";
 import { DialogService } from "app/shared/services/dialog.service";
 import { ImageService } from "app/shared/services/image.service";
-import { SiteStockService } from "app/shared/services/siteStock.service";
 import { NgToastService } from "ng-angular-popup";
 
 @Component({

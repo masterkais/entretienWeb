@@ -81,7 +81,7 @@ export class AddUserComponent implements OnInit {
       id:null,
       firstName: this.userFormGroup.value.firstName,
       lastName: this.userFormGroup.value.lastName,
-      login: this.userFormGroup.value.userName,
+      userName: this.userFormGroup.value.userName,
       password: this.userFormGroup.value.password,
       dateNaissanced: maDate,
       dateCreated: new Date(),

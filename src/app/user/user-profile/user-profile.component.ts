@@ -99,7 +99,7 @@ export class UserProfileComponent implements OnInit {
       id: this.idUser,
       firstName: this.userFormGroup.value.firstName,
       lastName: this.userFormGroup.value.lastName,
-      login: this.userFormGroup.value.userName,
+      userName: this.userFormGroup.value.userName,
       password: this.userFormGroup.value.password,
       dateNaissanced: maDate,
       dateCreated: new Date(),
@@ -114,7 +114,7 @@ export class UserProfileComponent implements OnInit {
     let isValid: boolean;
 
     let user = this.userService
-      .checkUserName(data.login)
+      .checkUserName(data.userName)
       .subscribe((res) => {
         if (res == true) {
           this.userService.editUser(data).subscribe(() => {

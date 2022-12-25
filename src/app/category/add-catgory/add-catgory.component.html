@@ -41,20 +41,6 @@
                                     </mat-form-field>
                                 </div>
                             </div>
-                            <div class="row">
-                              <div class="col-md-10">
-                                <mat-form-field style="margin-right:10px;margin-left:10px" appearance="standard">
-                                    <mat-label>Marque</mat-label>
-                                    <mat-select  name="brands">
-                                      
-                                      <mat-option *ngFor="let brand of listBrands" [value]="brand" (click)="getBrand(brand)">
-                                        {{brand.name}}
-                                      </mat-option>
-                                    </mat-select>
-                                  </mat-form-field>
-                                
-                              </div>
-                            </div>
                             <button mat-raised-button type="submit"
                                 [disabled]="categoryFormGroup.pristine || categoryFormGroup.invalid"
                                 class="btn btn-info pull-right">Ajouter Category</button>

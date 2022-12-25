@@ -32,7 +32,6 @@
             aria-expanded="false"
           >
             <i class="material-icons">favorite</i>
-            <span  *ngIf="caddyService.getSize()>0" class="notification">{{ caddyService.getSize() }}</span>
             <p>
               <span class="d-lg-none d-md-block">Some Actions</span>
             </p>
@@ -45,7 +44,7 @@
               class="dropdown-item"
               routerLink="caddy"
               href="javascript:void(0)"
-              >{{ caddyService.currentCaddyName }}</a
+              >caddyName</a
             >
           </div>
         </li>
@@ -59,7 +58,7 @@
             aria-expanded="false"
           >
             <i class="material-icons">add_shopping_cart</i>
-            <span *ngIf="basketService.getSize()>0" class="notification">{{ basketService.getSize() }}</span>
+            <span class="notification">0</span>
             <p>
               <span class="d-lg-none d-md-block">Some Actions</span>
             </p>
@@ -72,7 +71,7 @@
               class="dropdown-item"
               routerLink="basket"
               href="javascript:void(0)"
-              >{{ basketService.currentBasketName }}</a
+              >BasquetName</a
             >
           </div>
         </li>

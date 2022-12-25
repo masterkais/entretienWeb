@@ -129,7 +129,7 @@ export class ListUserComponent implements OnInit {
       });
   }
   onActive(user: User) {
-    this.serviceUser.verifierUserNameExiste(user.login).subscribe((res) => {
+    this.serviceUser.verifierUserNameExiste(user.userName).subscribe((res) => {
       if (res != null) {
         user.active = true;
         this.serviceUser.editUser(user).subscribe((res) => {
@@ -143,7 +143,7 @@ export class ListUserComponent implements OnInit {
     });
   }
   onDesactive(user: User) {
-    this.serviceUser.verifierUserNameExiste(user.login).subscribe((res) => {
+    this.serviceUser.verifierUserNameExiste(user.userName).subscribe((res) => {
       if (res != null) {
         res.active = false;
         this.serviceUser.editUser(res).subscribe((res) => {

@@ -106,7 +106,7 @@ export class EditUserComponent implements OnInit {
       id: this.idUser,
       firstName: this.userFormGroup.value.firstName,
       lastName: this.userFormGroup.value.lastName,
-      login: this.user.login,
+      userName: this.user.userName,
       password: this.user.password,
       dateNaissanced: maDate,
       dateCreated: new Date(),
@@ -126,5 +126,20 @@ export class EditUserComponent implements OnInit {
             });
             this.router.navigateByUrl("/user");
           });
+  }
+  formaterDate(date) {
+    if (date) {
+      let d = new Date(date)
+      let month = '' + (d.getMonth() + 1)
+      let day = '' + d.getDate()
+      let year = d.getFullYear();
+
+      if (month.length < 2)
+        month = '0' + month;
+      if (day.length < 2)
+        day = '0' + day;
+
+      return [year, month, day].join('-');
+    }
   }
 }

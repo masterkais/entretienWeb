@@ -6,9 +6,5 @@ export interface Product{
     buyingPrice:number;
     state:boolean;
     active:boolean;
-    imagesIds:any[];
-    categoryId:any;
-    siteStockId:any;
-    quantity:number;
-
+    category:any;
 }

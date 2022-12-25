@@ -3,9 +3,6 @@ import { Component, ElementRef, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { User } from "app/shared/models/user.module";
 import { AuthentificationServiceService } from "app/shared/services/authentification-service.service";
-import { BasketService } from "app/shared/services/Basket.service";
-import { CaddyService } from "app/shared/services/caddy.service";
-import { StatistiqueService } from "app/shared/services/statistique.service";
 import { UserService } from "app/shared/services/user.service";
 import { ROUTES } from "../sidebar/sidebar.component";
 
@@ -29,9 +26,6 @@ export class NavbarComponent implements OnInit {
     private router: Router,
     private authService: AuthentificationServiceService,
     private userService: UserService,
-    public caddyService: CaddyService,
-    public basketService: BasketService,
-    private stistiqueService: StatistiqueService
   ) {
     this.location = location;
     this.sidebarVisible = false;
@@ -39,8 +33,6 @@ export class NavbarComponent implements OnInit {
 
   async ngOnInit() {
     if (this.authService.isLogged)
-      this.caddyService.loadCaddyFromLocalStorage();
-    this.basketService.loadBasketFromLocalStorage();
     this.listTitles = ROUTES.filter((listTitle) => listTitle);
     const navbar: HTMLElement = this.element.nativeElement;
     this.toggleButton = navbar.getElementsByClassName("navbar-toggler")[0];
@@ -51,9 +43,6 @@ export class NavbarComponent implements OnInit {
         $layer.remove();
         this.mobile_menu_visible = 0;
       }
-    });
-    await this.stistiqueService.getNumberOfProductEnAtente().then((data) => {
-      this.numberRequestTransfert = data;
     });
   }
 

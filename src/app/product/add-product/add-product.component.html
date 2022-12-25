@@ -13,8 +13,7 @@
                             <div class="row">
                                 <div class="col-md-5">
                                     <mat-form-field class="example-full-width">
-                                        <input matInput placeholder="Nom de produit" formControlName="name"
-                                           >
+                                        <input matInput placeholder="Nom de produit" formControlName="name">
                                         <div *ngIf="productFormGroup.controls['name'].invalid && (productFormGroup.controls['name'].dirty || productFormGroup.controls['name'].touched)"
                                             class="alert alert-danger">
                                             <div *ngIf="productFormGroup.controls['name'].errors.required">
@@ -48,9 +47,8 @@
                                         <div *ngIf="productFormGroup.controls['sellingPrice'].invalid && (productFormGroup.controls['sellingPrice'].dirty || productFormGroup.controls['sellingPrice'].touched)"
                                             class="alert alert-danger">
                                             <div *ngIf="productFormGroup.controls['sellingPrice'].errors.required">
-                                                email est obligatoir.
+                                                prix achat est obligatoir.
                                             </div>
-                        
                                         </div>
                                     </mat-form-field>
                                 </div>
@@ -63,9 +61,8 @@
                                         <div *ngIf="productFormGroup.controls['buyingPrice'].invalid && (productFormGroup.controls['buyingPrice'].dirty || productFormGroup.controls['buyingPrice'].touched)"
                                             class="alert alert-danger">
                                             <div *ngIf="productFormGroup.controls['buyingPrice'].errors.required">
-                                                email est obligatoir.
+                                                prix de vente est obligatoir.
                                             </div>
-                        
                                         </div>
                                     </mat-form-field>
                                 </div>
@@ -75,7 +72,7 @@
                                     <mat-radio-button class="example-radio-button" [value]="1"
                                         (change)="radioChange($event)">
                                         Disponible</mat-radio-button>
-                                    <mat-radio-button class="example-radio-button" [value]="2"
+                                    <mat-radio-button class="example-radio-button" [value]="0"
                                         (change)="radioChange($event)">
                                         Non disponible</mat-radio-button>
                                 </mat-radio-group>
@@ -88,17 +85,14 @@
                                     <mat-radio-button class="example-radio-button" [value]="1"
                                         (change)="radioChangePromotion($event)">
                                        Promotion</mat-radio-button>
-                                    <mat-radio-button class="example-radio-button" [value]="2"
-                                        (change)="radioChange($event)">
+                                    <mat-radio-button class="example-radio-button" [value]="0"
+                                        (change)="radioChangePromotion($event)">
                                         Non promotional</mat-radio-button>
                                 </mat-radio-group>
                                 </div>
                                 <div class="col-md-6">
-                                    
                                     <input type="file" multiple (change)="detectFiles($event)">
-                                    
                                 </div>
-            
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
@@ -106,16 +100,6 @@
                                         <mat-label>Categorie</mat-label>
                                         <mat-select  formControlName="categoryId">
                                           <mat-option *ngFor="let row of listCategory" [value]="row" (click)="getCategoryVal(row)"  >
-                                            {{row.name}}
-                                          </mat-option>
-                                        </mat-select>
-                                      </mat-form-field>
-                                </div>
-                                <div class="col-md-6">
-                                    <mat-form-field style="margin-right:10px;margin-left:10px" appearance="standard">
-                                        <mat-label>Site Stock</mat-label>
-                                        <mat-select formControlName="siteStockId" >
-                                          <mat-option *ngFor="let row of listSieStock" [value]="row" (click)="getSiteStockVal(row)" >
                                             {{row.name}}
                                           </mat-option>
                                         </mat-select>

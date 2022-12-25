@@ -6,9 +6,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Brand } from "app/shared/models/brand.model";
 import { Category } from "app/shared/models/category.model";
-import { BrandService } from "app/shared/services/brand.service";
 import { CategoryService } from "app/shared/services/category.service";
 import { NgToastService } from "ng-angular-popup";
 
@@ -25,23 +23,17 @@ export class EditCatgoryComponent implements OnInit {
   state;
   idCategory:number;
   idBrand:number;
-  brand:Brand;
-  listBrands:Brand[];
   constructor(
     private activatedRoot: ActivatedRoute,
     private formBuilder: FormBuilder,
     private categoryService: CategoryService,
     private toast: NgToastService,
     private router: Router,
-    private brandService:BrandService,
   ) {
     this.idCategory=this.activatedRoot.snapshot.params.id;
   }
 
   ngOnInit(): void {
-    this.brandService.getAllBrand().subscribe((datas)=>{
-      this.listBrands=datas;
-    })
     this.categoryService.getCategoryById(this.idCategory).subscribe((data)=>{
       this.category=data;
     })
@@ -56,16 +48,13 @@ export class EditCatgoryComponent implements OnInit {
       ],
     });
   }
-  getBrand(brand:Brand){
-    this.brand=brand;
-   }
+  
   onUpdateCategory() {
     this.submitted = true;
     let data: Category = {
       id: this.idCategory,
       name: this.categoryFormGroup.value.name,
       description: this.categoryFormGroup.value.description,
-      idBrand:this.brand.id,
     };
     this.categoryService.editCategory(data).subscribe(
       () => {

@@ -8,21 +8,15 @@ import {
 } from "@angular/forms";
 import { MatRadioChange } from "@angular/material/radio";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Brand } from "app/shared/models/brand.model";
 import { Category } from "app/shared/models/category.model";
 import { Image } from "app/shared/models/image.model";
 import { Product } from "app/shared/models/product.model";
-import { RowMaterial } from "app/shared/models/rowMaterial.model";
-import { SiteStock } from "app/shared/models/siteStock.model";
-import { BrandService } from "app/shared/services/brand.service";
-import { CategoryService } from "app/shared/services/category.service";
 import { ImageService } from "app/shared/services/image.service";
 import { ProductService } from "app/shared/services/product.service";
-import { RowMaterialService } from "app/shared/services/rowMaterial.service";
-import { SiteStockService } from "app/shared/services/siteStock.service";
 import { FileUploadService } from "app/shared/services/upload.service";
 import { NgToastService } from "ng-angular-popup";
 import { Observable } from "rxjs";
+import { CategoryService } from '../../shared/services/category.service';
 
 @Component({
   selector: 'edit-product',
@@ -46,9 +40,7 @@ export class EditProductComponent implements OnInit {
   imagesSelected: any[] = [];
   imagesIds: number[];
   listCategory: Category[];
-  listSieStock: SiteStock[];
   category: Category;
-  siteStock: SiteStock;
   idProd:number;
   selectedOption = '1';
   constructor(
@@ -58,8 +50,6 @@ export class EditProductComponent implements OnInit {
     private toast: NgToastService,
     private router: Router,
     private imageService: ImageService,
-    private siteStockService: SiteStockService,
-    private rowMaterialService: RowMaterialService,
     private productService: ProductService,
     private uploadService: FileUploadService,
     private httpClient:HttpClient,
@@ -67,26 +57,28 @@ export class EditProductComponent implements OnInit {
   ) {
     this.idProd=this.activateRoute.snapshot.params.id;
   }
-  public onFileChanged(event) {
-        //Select File
-        this.selectedFile = event.target.files[0];
-      }
-      
+
   async ngOnInit(): Promise<void> {
     await this.productService.getProductByIdV2(this.idProd).then((data)=>{
       this.product=data;
     })
+    if(this.product.active===false){
+      this.promotion=0
+    }
+    else{
+      this.promotion=1
+    }
+    
+    if(this.product.state===false){
+      this.state=0
+    }
+    else{
+      this.state=1
+    }
     this.categoryService.getAllCategory().subscribe((data) => {
       this.listCategory = data;
     });
-    this.siteStockService.getAllSiteStock().subscribe((data) => {
-      this.listSieStock = data;
-    });
-
-    this.imageService.getAllImage().subscribe((data) => {
-      this.listImages = data;
-    });
-    this.productFormGroup = this.formBuilder.group({
+  this.productFormGroup = this.formBuilder.group({
       name: [
         "",
         Validators.compose([Validators.required, Validators.minLength(3)]),
@@ -99,14 +91,7 @@ export class EditProductComponent implements OnInit {
       buyingPrice: ["", Validators.compose([Validators.required])],
     });
   }
-  getSiteStockVal(row: SiteStock) {
-    this.siteStock = row;
-    console.log("******** site" + row.id);
-  }
-  getCategoryVal(row: Category) {
-    this.category = row;
-    console.log("******** cat" + row.id);
-  }
+ 
   radioChange(event: MatRadioChange) {
     this.state = event.value;
     console.log(event.value);
@@ -114,54 +99,6 @@ export class EditProductComponent implements OnInit {
   radioChangePromotion(event: MatRadioChange) {
     this.promotion = event.value;
     console.log(event.value);
-  }
-  compareFn(c1, c2): boolean {
-    return c1 && c2 ? c1.id === c2.id : c1 === c2;
-  }
-
-  getValues(event: {
-    isUserInput: any;
-    source: { value: any; selected: any };
-  }) {
-    if (event.isUserInput) {
-      if (event.source.selected === true) {
-        console.log(event.source.value);
-        this.imagesSelected.push(event.source.value.id);
-      } else {
-        console.log(event.source.value);
-        this.removeImage(event.source.value);
-      }
-    }
-  }
-
-  removeImage(image: Image): void {
-    this.imagesSelected = this.imagesSelected.filter(
-      ({ id }) => id !== image.id
-    );
-  }
-  onSaveProduct() {
-    this.submitted = true;
-    let data: Product = {
-      id: null,
-      name: this.productFormGroup.value.name,
-      description: this.productFormGroup.value.description,
-      sellingPrice: this.productFormGroup.value.sellingPrice,
-      buyingPrice: this.productFormGroup.value.buyingPrice,
-      state: this.state,
-      active: this.promotion,
-      imagesIds: this.imagesSelected,
-      categoryId: this.category.id,
-      siteStockId: this.siteStock.id,
-      quantity:null
-    };
-    this.productService.saveProduct(data).subscribe(
-      () => {
-        this.toast.success({ detail: "Ajout avec succée !", duration: 5000 });
-        this.router.navigateByUrl("/product");
-      },
-      (error) =>
-        this.toast.error({ detail: "Error ! " + error.message, duration: 5000 })
-    );
   }
 
   urls = new Array<string>();
@@ -189,8 +126,36 @@ export class EditProductComponent implements OnInit {
     
   }
 
-  
 
+  getCategoryVal(row: Category) {
+    this.category = row;
+    console.log("******** cat" + row.id);
+  }
+ 
 
+  onSaveProduct() {
+    this.submitted = true;
+    let data: Product = {
+      id: this.idProd,
+      name: this.productFormGroup.value.name,
+      description: this.productFormGroup.value.description,
+      sellingPrice: this.productFormGroup.value.sellingPrice,
+      buyingPrice: this.productFormGroup.value.buyingPrice,
+      state: this.state,
+      active: this.promotion,
+      category: {id:this.category.id},
+    };
+    console.log("!!!!!!"+this.state);
+    console.log("!!!!!!"+this.promotion);
+    console.log(JSON.stringify(data));
+    this.productService.editProduct(data).subscribe(
+      () => {
+        this.toast.success({ detail: "Prduit est modifer avec succée !", duration: 5000 });
+        this.router.navigateByUrl("/product");
+      },
+      (error) =>
+        this.toast.error({ detail: "Error ! " + error.message, duration: 5000 })
+    );
+  }
 }
 

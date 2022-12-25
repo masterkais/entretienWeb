@@ -61,6 +61,6 @@ getCurrentUser(): Observable<User> {
   return this.http.get<User>(this.host+"/api/user/getCurretnUser");
 }
 async getUser(){
-await this.getCurrentUser().subscribe((data)=>{this.user=data;console.log(this.user.login)});
+await this.getCurrentUser().subscribe((data)=>{this.user=data;console.log(this.user.userName)});
 }
 }

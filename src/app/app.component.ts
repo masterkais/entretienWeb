@@ -1,5 +1,4 @@
 import { Component} from '@angular/core';
-import { BasketService } from './shared/services/Basket.service';
 
 
 @Component({
@@ -9,7 +8,6 @@ import { BasketService } from './shared/services/Basket.service';
 })
 export class AppComponent {
 
-  constructor(public basketService:BasketService){
-    this.basketService.loadBasketFromLocalStorage()
+  constructor(){
   }
 }

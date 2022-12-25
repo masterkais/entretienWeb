@@ -13,6 +13,6 @@ export interface User {
   dateNaissanced: any;
   dateCreated: Date;
   groupIds: any[];
-  login: string;
+  userName: string;
   password: string;
 }
