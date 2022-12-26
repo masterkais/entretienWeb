@@ -7,4 +7,5 @@ export interface Product{
     state:boolean;
     active:boolean;
     category:any;
+    images:any;
 }

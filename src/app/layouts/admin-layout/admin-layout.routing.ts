@@ -14,6 +14,12 @@ import { UserProfileComponent } from "app/user/user-profile/user-profile.compone
 import { UserComponent } from "app/user/user.component";
 import { EditUserComponent } from '../../user/edit-user/edit-user.component';
 import { AddUserComponent } from '../../user/add-user/add-user.component';
+import { HotelComponent } from '../../hotel/hotel.component';
+import { AddHotelComponent } from '../../hotel/add-hotel/add-hotel.component';
+import { RoomComponent } from '../../hotel/room/room.component';
+import { AddRoomComponent } from '../../hotel/room/add-room/add-room.component';
+import { EditRoomComponent } from '../../hotel/room/edit-room/edit-room.component';
+
 
 export const AdminLayoutRoutes: Routes = [
   { path: "user", component: UserComponent },
@@ -26,10 +32,16 @@ export const AdminLayoutRoutes: Routes = [
   { path: "category", component: CategoryComponent },
   { path: "category/edit-category/:id", component: EditCatgoryComponent },
   { path: "category/add-category", component: AddCatgoryComponent},
-  { path: "image", component: ImageComponent },
-  { path: "image/add-image", component: AddImageComponent},
   { path: "product", component: ProductComponent },
   { path: "product/edit-product/:id", component: EditProductComponent },
   { path: "product/add-product", component: AddProductComponent},
+  { path: "image", component: ImageComponent},
+  { path: "image/add-image", component: AddImageComponent},
+  { path: "hotel", component: HotelComponent},
+  { path: "hotel/add-hotel", component: AddHotelComponent},
+  { path: "hotel/edit-hotel/:id", component: AddHotelComponent},
+  { path: "hotel/room/:id", component: RoomComponent},
+  { path: "hotel/room/add-room/:id", component:AddRoomComponent },
+  { path: "hotel/room/edit-room/:id", component:EditRoomComponent },
   {path:"",redirectTo:'user',pathMatch:'full'},
 ];

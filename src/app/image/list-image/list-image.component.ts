@@ -14,7 +14,7 @@ import { NgToastService } from "ng-angular-popup";
   styleUrls: ['./list-image.component.css']
 })
 export class ListImageComponent implements OnInit {
-  displayedColumns: string[] = ["path","Action"];
+  displayedColumns: string[] = ["data","Action"];
   columnsToDisplay: string[] = this.displayedColumns.slice();
   dataSource!: MatTableDataSource<Image>;
   posts: any;

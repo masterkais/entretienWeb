@@ -72,6 +72,16 @@ import { DatePipe } from '@angular/common';
 import { DialogService } from './shared/services/dialog.service';
 import { InterceptorService, TokenInterceptorProvider } from './shared/services/interceptor.service';
 import { AuthentificationServiceService } from './shared/services/authentification-service.service';
+import { HotelComponent } from './hotel/hotel.component';
+import { AddHotelComponent } from './hotel/add-hotel/add-hotel.component';
+import { EditHotelComponent } from './hotel/edit-hotel/edit-hotel.component';
+import { ListHotelComponent } from './hotel/list-hotel/list-hotel.component';
+import { NavBarHotelComponent } from './hotel/nav-bar-hotel/nav-bar-hotel.component';
+import { RoomComponent } from './hotel/room/room.component';
+import { AddRoomComponent } from './hotel/room/add-room/add-room.component';
+import { EditRoomComponent } from './hotel/room/edit-room/edit-room.component';
+import { ListRoomComponent } from './hotel/room/list-room/list-room.component';
+import { NavBarRoomComponent } from './hotel/room/nav-bar-room/nav-bar-room.component';
 FusionChartsModule.fcRoot(FusionCharts, charts, FusionTheme);
 @NgModule({
   imports: [
@@ -141,6 +151,16 @@ FusionChartsModule.fcRoot(FusionCharts, charts, FusionTheme);
     AddProductComponent,
     EditProductComponent,
     ListProductComponent,
+    HotelComponent,
+    AddHotelComponent,
+    EditHotelComponent,
+    ListHotelComponent,
+    NavBarHotelComponent,
+    RoomComponent,
+    AddRoomComponent,
+    EditRoomComponent,
+    ListRoomComponent,
+    NavBarRoomComponent,
      ],
   providers: [ AuthenticationService, GroupService,UserService,DatePipe,DialogService,InterceptorService,AuthentificationServiceService,TokenInterceptorProvider],
   bootstrap: [AppComponent],

@@ -1,50 +1,44 @@
-import { DatePipe } from "@angular/common";
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { MatPaginator } from "@angular/material/paginator";
-import { MatSort } from "@angular/material/sort";
-import { MatTableDataSource } from "@angular/material/table";
-import { Router } from "@angular/router";
-import { Category } from "app/shared/models/category.model";
-import { Product } from "app/shared/models/product.model";
-import { CategoryService } from "app/shared/services/category.service";
-import { DialogService } from "app/shared/services/dialog.service";
-import { GroupService } from "app/shared/services/group.service";
-import { ImageService } from "app/shared/services/image.service";
-import { ProductService } from "app/shared/services/product.service";
-import { NgToastService } from "ng-angular-popup";
-import {
-  Gallery,
-  GalleryItem,
-  ImageItem,
-  ImageSize,
-  ThumbnailsPosition,
-} from "ng-gallery";
-import { Lightbox } from "ng-gallery/lightbox";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Gallery, GalleryItem, ImageItem, ImageSize, ThumbnailsPosition } from 'ng-gallery';
+import { MatTableDataSource } from '@angular/material/table';
+import { Product } from '../../shared/models/product.model';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { Category } from 'app/shared/models/category.model';
+import { ImageService } from '../../shared/services/image.service';
+import { Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
+import { DialogService } from '../../shared/services/dialog.service';
+import { GroupService } from '../../shared/services/group.service';
+import { NgToastService } from 'ng-angular-popup';
+import { CategoryService } from '../../shared/services/category.service';
+import { ProductService } from '../../shared/services/product.service';
+import { Lightbox } from 'ng-gallery/lightbox';
+import { Hotel } from '../../shared/models/hotel.model';
+import { HotelService } from '../../shared/services/hotel.service';
 
 @Component({
-  selector: "list-product",
-  templateUrl: "./list-product.component.html",
-  styleUrls: ["./list-product.component.css"],
+  selector: 'list-hotel',
+  templateUrl: './list-hotel.component.html',
+  styleUrls: ['./list-hotel.component.css']
 })
-export class ListProductComponent implements OnInit {
+export class ListHotelComponent implements OnInit {
   data: any[] = [];
   items: GalleryItem[];
   displayedColumns: string[] = [
-    "name",
-    "description",
-    "sellingPrice",
-    "buyingPrice",
+    "name_hotel",
+    "city_hotel",
     "state",
     "active",
     "categoryId",
     "action",
   ];
   columnsToDisplay: string[] = this.displayedColumns.slice();
-  dataSource!: MatTableDataSource<Product>;
+  dataSource!: MatTableDataSource<Hotel>;
   posts: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  listProducts: Product[];
+  listHotels: Hotel[];
   listCategory: Category[];
   constructor(
     private imageService:ImageService,
@@ -54,26 +48,26 @@ export class ListProductComponent implements OnInit {
     private groupService: GroupService,
     private toast: NgToastService,
     private categoryService: CategoryService,
-    private productService: ProductService,
+    private hotelService: HotelService,
     public gallery: Gallery,
     public lightbox: Lightbox
   ) {}
   ngOnInit(): void {
     this.getAllCategorys();
-    this.getAllProducts();
+    this.getAllHotels();
   }
   getAllCategorys() {
     this.categoryService
       .getAllCategory()
       .subscribe((data) => (this.listCategory = data));
   }
-  getAllProducts() {
-    this.productService.getAllProduct().subscribe((products) => {
-      this.listProducts = products;
-      this.dataSource = new MatTableDataSource(products);
+  getAllHotels() {
+    this.hotelService.getAllHotel().subscribe((hotels) => {
+      this.listHotels = hotels;
+      this.dataSource = new MatTableDataSource(hotels);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      console.log(JSON.stringify(products));
+      console.log(JSON.stringify(hotels));
     });
   }
 
@@ -85,17 +79,17 @@ export class ListProductComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-  onEdit(product: Product) {
-    this.router.navigateByUrl("/product/edit-product/" + product.id);
+  onEdit(hotel: Hotel) {
+    this.router.navigateByUrl("/hotel/edit-hotel/" + hotel.id);
   }
-  onDelete(product: Product) {
+  onDelete(hotel: Hotel) {
     this.dialogService
       .openConfirmDialog("Vous etes sur ?")
       .afterClosed()
       .subscribe((res) => {
         if (res) {
-          this.productService.deleteProductById(product.id).subscribe(() => {
-            this.getAllProducts();
+          this.hotelService.deleteHotelById(hotel.id).subscribe(() => {
+            this.getAllHotels()
             this.toast.success({
               detail: "Suppression product avec succée !",
               duration: 5000,
@@ -106,112 +100,112 @@ export class ListProductComponent implements OnInit {
   }
   
  
-  onPromo(product: Product) {
-    product.state = true;
-    this.productService.editProduct(product).subscribe((res) => {
+  onPromo(hotel: Hotel) {
+    hotel.state = true;
+    this.hotelService.editHotel(hotel).subscribe((res) => {
       this.toast.success({
-        detail: "Le produit  est en promotion !",
+        detail: "L'hotel  est en promotion !",
         duration: 5000,
       });
-      this.getAllProducts();
+      this.getAllHotels();
     });
   }
 
-  onNotPromo(product: Product) {
-    product.state = false;
-    this.productService.editProduct(product).subscribe((res) => {
+  onNotPromo(hotel: Hotel) {
+    hotel.state = false;
+    this.hotelService.editHotel(hotel).subscribe((res) => {
       this.toast.success({
-        detail: "Le produit sort du promotion !",
+        detail: "L'hotel sort du promotion !",
         duration: 5000,
       });
-      this.getAllProducts();
+      this.getAllHotels();
     });
   }
-  onDispo(product: Product) {
-    product.active = true;
-    this.productService.editProduct(product).subscribe((res) => {
+  onDispo(hotel:Hotel) {
+    hotel.active = true;
+    this.hotelService.editHotel(hotel).subscribe((res) => {
       this.toast.success({
-        detail: "Le produit est disponible ! !",
+        detail: "L'hotel est disponible ! !",
         duration: 5000,
       });
-      this.getAllProducts();
+      this.getAllHotels();
     });
   }
-  onNotDispo(product: Product) {
-    product.active = false;
-    this.productService.editProduct(product).subscribe((res) => {
+  onNotDispo(hotel: Hotel) {
+    hotel.active = false;
+    this.hotelService.editHotel(hotel).subscribe((res) => {
       this.toast.success({
-        detail: "Le produit n'est pas disponible ! !",
+        detail: "L'hotel n'est pas disponible ! !",
         duration: 5000,
       });
-      this.getAllProducts();
+      this.getAllHotels();
     });
   }
   applyFilterCategory(category: Category) {
-    this.productService
-      .getAllProductByCategory(category.id)
+    this.hotelService
+      .getAllHotelByCategory(category.id)
       .subscribe((users) => {
         this.dataSource = new MatTableDataSource(users);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       });
   }
-  getAllProductDiponible() {
-    this.productService.getAllProductByActive(true).subscribe((products) => {
-      this.listProducts = products;
-      products.forEach((data) => {
+  getAllHotelDiponible() {
+    this.hotelService.getAllHotelByActive(true).subscribe((hotels) => {
+      this.listHotels = hotels;
+      hotels.forEach((data) => {
         this.categoryService
           .getCategoryById(data.category.id)
           .subscribe((category) => {
             data.category = category;
           });
       });
-      this.dataSource = new MatTableDataSource(products);
+      this.dataSource = new MatTableDataSource(hotels);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
   }
-  getAllProductNonDisponible() {
-    this.productService.getAllProductByActive(false).subscribe((products) => {
-      this.listProducts = products;
-      products.forEach((data) => {
+  getAllHotelNonDisponible() {
+    this.hotelService.getAllHotelByActive(false).subscribe((hotels) => {
+      this.listHotels = hotels;
+      hotels.forEach((data) => {
         this.categoryService
           .getCategoryById(data.category)
           .subscribe((category) => {
             data.category = category;
           });
       });
-      this.dataSource = new MatTableDataSource(products);
+      this.dataSource = new MatTableDataSource(hotels);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
   }
-  getAllProductPromotion() {
-    this.productService.getAllProductByState(true).subscribe((products) => {
-      this.listProducts = products;
-      products.forEach((data) => {
+  getAllHotelPromotion() {
+    this.hotelService.getAllHotelByActive(true).subscribe((hotels) => {
+      this.listHotels = hotels;
+      hotels.forEach((data) => {
         this.categoryService
           .getCategoryById(data.category)
           .subscribe((category) => {
             data.category = category;
           });
       });
-      this.dataSource = new MatTableDataSource(products);
+      this.dataSource = new MatTableDataSource(hotels);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
   }
-  getAllProductNonPromotion() {
-    this.productService.getAllProductByState(false).subscribe((products) => {
-      this.listProducts = products;
-      products.forEach((data) => {
+  getAllHotelNonPromotion() {
+    this.hotelService.getAllHotelByActive(false).subscribe((hotels) => {
+      this.listHotels = hotels;
+      hotels.forEach((data) => {
         this.categoryService
           .getCategoryById(data.category)
           .subscribe((category) => {
             data.category = category;
           });
       });
-      this.dataSource = new MatTableDataSource(products);
+      this.dataSource = new MatTableDataSource(hotels);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
@@ -245,5 +239,11 @@ export class ListProductComponent implements OnInit {
       this.lightbox.open(0)
   
       },1000)
+        }
+        addRoom(hotel:any){
+          this.router.navigateByUrl("/hotel/room/add-room/"+hotel.id);
+        }
+        listRoom(hotel: any){
+          this.router.navigateByUrl("/hotel/room/"+hotel.id);
         }
 }

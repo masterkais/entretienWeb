@@ -12,7 +12,8 @@ export const ROUTES: RouteInfo[] = [
     { path: '/user', title: 'Utilisateurs',  icon:'group', class: '' },
     { path: '/group', title: 'Groups',  icon:'group_work', class: '' },
     { path: '/category', title: 'Categories',  icon:'branding_watermark', class: '' },
-    { path: '/product', title: 'Products',  icon:'event_available', class: '' },
+    { path: '/hotel', title: 'Hotels',  icon:'group', class: '' },
+    { path: '/image', title: 'Images',  icon:'event_available', class: '' },
 ];
 
 @Component({

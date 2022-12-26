@@ -1,40 +1,38 @@
-import { HttpClient, HttpEventType, HttpResponse } from "@angular/common/http";
-import { Component, OnInit } from "@angular/core";
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from "@angular/forms";
-import { MatRadioChange } from "@angular/material/radio";
-import { ActivatedRoute, Router } from "@angular/router";
-import { Category } from "app/shared/models/category.model";
-import { Image } from "app/shared/models/image.model";
-import { Product } from "app/shared/models/product.model";
-import { CategoryService } from "app/shared/services/category.service";
-import { ImageService } from "app/shared/services/image.service";
-import { ProductService } from "app/shared/services/product.service";
-import { FileUploadService } from "app/shared/services/upload.service";
-import { json } from "express";
-import { NgToastService } from "ng-angular-popup";
-import { Observable } from "rxjs";
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { Hotel } from '../../../shared/models/hotel.model';
+import { Category } from '../../../shared/models/category.model';
+import { ActivatedRoute, Route, Router } from '@angular/router';
+import { CategoryService } from '../../../shared/services/category.service';
+import { NgToastService } from 'ng-angular-popup';
+import { ImageService } from '../../../shared/services/image.service';
+import { HotelService } from '../../../shared/services/hotel.service';
+import { FileUploadService } from '../../../shared/services/upload.service';
+import { HttpClient } from '@angular/common/http';
+import { MatRadioChange } from '@angular/material/radio';
+import { Image } from '../../../shared/models/image.model';
+import { Room } from '../../../shared/models/room.model';
+import { RoomService } from '../../../shared/services/room.service';
+
 
 @Component({
-  selector: "add-product",
-  templateUrl: "./add-product.component.html",
-  styleUrls: ["./add-product.component.css"],
+  selector: 'add-room',
+  templateUrl: './add-room.component.html',
+  styleUrls: ['./add-room.component.css']
 })
-export class AddProductComponent implements OnInit {
+export class AddRoomComponent implements OnInit {
+
+ 
   selectedFile: File;
   retrievedImage: any;
   base64Data: any;
   retrieveResonse: any;
   message: string;
   id: any;
-  productFormGroup?: FormGroup;
+  roomFormGroup?: FormGroup;
   submitted: boolean = false;
   groups = new FormControl();
-  product: Product;
+  room: Room;
   state;
   promotion;
   listImages:any[]=[];
@@ -42,6 +40,7 @@ export class AddProductComponent implements OnInit {
   imagesIds: number[];
   listCategory: Category[];
   category: Category;
+  hotel: Hotel;
   constructor(
     private activatedRoot: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -49,27 +48,31 @@ export class AddProductComponent implements OnInit {
     private toast: NgToastService,
     private router: Router,
     private imageService: ImageService,
-    private productService: ProductService,
+    private hoteService: HotelService,
     private uploadService: FileUploadService,
     private httpClient:HttpClient,
+    private roomService:RoomService,
   ) {}
 
   ngOnInit(): void {
-
-    this.categoryService.getAllCategory().subscribe((data) => {
-      this.listCategory = data;
+let id=this.activatedRoot.snapshot.params["id"];
+    this.hoteService.getHotelById(id).subscribe((data) => {
+      this.hotel=data;
     });
-    this.productFormGroup = this.formBuilder.group({
+    JSON.stringify(this.hotel);
+    this.roomFormGroup = this.formBuilder.group({
       name: [
         "",
-        Validators.compose([Validators.required, Validators.minLength(3)]),
+        Validators.compose([Validators.required]),
       ],
       description: [
         "",
-        Validators.compose([Validators.required, Validators.minLength(3)]),
+        Validators.compose([Validators.required]),
       ],
-      sellingPrice: ["", Validators.compose([Validators.required])],
-      buyingPrice: ["", Validators.compose([Validators.required])],
+      hirePrice: [
+        "",
+        Validators.compose([Validators.required]),
+      ],
     });
   }
   
@@ -78,26 +81,21 @@ export class AddProductComponent implements OnInit {
         this.selectedFile = event.target.files[0];
       }
       
-      onSaveProduct() {
+      onSaveRoom() {
         this.submitted = true;
-        this.imagesSelected.forEach((val)=>{
-          this.listImages.push({id:val})
-        })
-        let data: Product = {
+        let data: Room = {
           id: null,
-          name: this.productFormGroup.value.name,
-          description: this.productFormGroup.value.description,
-          sellingPrice: this.productFormGroup.value.sellingPrice,
-          buyingPrice: this.productFormGroup.value.buyingPrice,
+          name: this.roomFormGroup.value.name,
+          description: this.roomFormGroup.value.description,
+          hirePrice:this.roomFormGroup.value.hirePrice,
           state: this.state,
           active: this.promotion,
-          category: {id:this.category.id},
-          images:this.listImages,
+          hotel: {id:this.hotel.id},
         };
-        this.productService.saveProduct(data).subscribe(
+        this.roomService.saveRoom(data).subscribe(
           () => {
             this.toast.success({ detail: "Ajout avec succée !", duration: 5000 });
-            this.router.navigateByUrl("/product");
+            this.router.navigateByUrl("/hotel");
           },
           (error) =>
             this.toast.error({ detail: "Error ! " + error.message, duration: 5000 })

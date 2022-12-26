@@ -144,6 +144,7 @@ export class EditProductComponent implements OnInit {
       state: this.state,
       active: this.promotion,
       category: {id:this.category.id},
+      images:this.imagesSelected
     };
     console.log("!!!!!!"+this.state);
     console.log("!!!!!!"+this.promotion);

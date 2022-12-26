@@ -1,0 +1,103 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+
+                <p></p>
+                <div class="card">
+                    <div class="card-header card-header-info">
+                        <h4 class="card-title">Ajouter Chambre</h4>
+                    </div>
+                    <div class="card-body">
+                        <form [formGroup]="roomFormGroup" (ngSubmit)="onSaveRoom()" novalidate>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="name" formControlName="name">
+                                        <div *ngIf="roomFormGroup.controls['name'].invalid && (roomFormGroup.controls['name'].dirty || roomFormGroup.controls['name'].touched)"
+                                            class="alert alert-danger">
+                                            <div *ngIf="roomFormGroup.controls['name'].errors.required">
+                                                Nom est obligatoir.
+                                            </div>
+                                            <div *ngIf="roomFormGroup.controls['name'].errors.minlength">
+                                                Le longeur minimale est 3.
+                                            </div>
+                                        </div>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="description" formControlName="description"
+                                            >
+                                        <div *ngIf="roomFormGroup.controls['description'].invalid && (roomFormGroup.controls['description'].dirty || roomFormGroup.controls['description'].touched)"
+                                            class="alert alert-danger">
+                                            <div *ngIf="roomFormGroup.controls['description'].errors.required">
+                                                ville est obligatoir.
+                                            </div>
+                                            <div *ngIf="roomFormGroup.controls['description'].errors.minlength">
+                                                Le longeur minimale est 3.
+                                            </div>
+                                        </div>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Hire price" formControlName="hirePrice"
+                                            >
+                                        <div *ngIf="roomFormGroup.controls['hirePrice'].invalid && (roomFormGroup.controls['hirePrice'].dirty || roomFormGroup.controls['hirePrice'].touched)"
+                                            class="alert alert-danger">
+                                            <div *ngIf="roomFormGroup.controls['hirePrice'].errors.required">
+                                                prix est obligatoir.
+                                            </div>
+                                            <div *ngIf="roomFormGroup.controls['hirePrice'].errors.minlength">
+                                                Le longeur minimale est 3.
+                                            </div>
+                                        </div>
+                                    </mat-form-field>
+                                </div>
+
+                                 <div class="col-md-6">
+                                    <mat-radio-group aria-labelledby="example-radio-group-label"
+                                    class="example-radio-group">
+                                    <mat-radio-button class="example-radio-button" [value]="1"
+                                        (change)="radioChange($event)">
+                                        Disponible</mat-radio-button>
+                                    <mat-radio-button class="example-radio-button" [value]="0"
+                                        (change)="radioChange($event)">
+                                        Non disponible</mat-radio-button>
+                                </mat-radio-group>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <mat-radio-group aria-labelledby="example-radio-group-label"
+                                    class="example-radio-group">
+                                    <mat-radio-button class="example-radio-button" [value]="1"
+                                        (change)="radioChangePromotion($event)">
+                                       Promotion</mat-radio-button>
+                                    <mat-radio-button class="example-radio-button" [value]="0"
+                                        (change)="radioChangePromotion($event)">
+                                        Non promotional</mat-radio-button>
+                                </mat-radio-group>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="file" multiple (change)="detectFiles($event)">
+                                </div>
+                            </div>
+                          
+                             <button mat-raised-button type="submit"
+                                [disabled]="roomFormGroup.pristine || roomFormGroup.invalid"
+                                class="btn btn-info pull-right">Ajouter room</button>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <img *ngFor="let url of urls" [src]="url" class="rounded mb-3" width="180">
+            </div>
+    
+        </div>
+    </div>
+</div>
